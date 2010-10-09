@@ -9,7 +9,7 @@ Oh, you may as well assume all the files in this repo are MIT licensed unless ot
 
 > Licensed under the MIT license:
 > 
->   [http://www.opensource.org/licenses/mit-license.php]()
+>   [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 > 
 > (c) Copyright 2010 David Wagner.
 > 
