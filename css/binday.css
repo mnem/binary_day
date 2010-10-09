@@ -7,20 +7,6 @@ body {
     margin: 32px auto auto auto;
     width:540px;
 }
-#in-link {
-	position:absolute;
-    margin:3px 3px 2px 12px;
-	bottom:0px;
-	left:0px;
-    font-size:10pt;
-}
-#out-link {
-	position:absolute;
-    margin:3px 3px 38px 12px;
-	bottom:0px;
-	left:0px;
-    font-size:10pt;
-}
 #message-in {
 	position:relative;
     margin:3px 3px 3px 3px;
@@ -28,15 +14,6 @@ body {
     width:540px;
 	height:160px;
     background:#FFCC33;
-    text-align:center;
-}
-#message-out {
-	position:relative;
-    margin:3px 3px 3px 3px;
-    padding:3px 3px 3px 3px;
-    width:540px;
-	height:195px;
-    background:#98D900;
     text-align:center;
 }
 #message-text {
@@ -47,14 +24,38 @@ body {
 	height:113px;
 	background:#FEF2C0;
 }
-#binary-text {
+#in-link {
+	position:absolute;
+    margin:3px 3px 2px 12px;
+	bottom:0px;
+	left:0px;
+    font-size:10pt;
+}
+#message-out {
+	position:relative;
     margin:3px 3px 3px 3px;
+    padding:3px 3px 3px 3px;
+    width:540px;
+    background:#98D900;
+    text-align:center;
+}
+#content-out {
+	word-wrap:break-word;
+    margin:3px auto auto auto;
+    padding:3px 3px 3px 3px;
     color:#929292;
     font-family:Arial, Verdana, Sans-serif;
     font-size:18pt;
     width:520px;
-	height:113px;
+    text-align:left;
     background:#F0FFBE;
+}
+#out-link {
+	position:absolute;
+    margin:3px 3px 25px 12px;
+	bottom:0px;
+	left:0px;
+    font-size:10pt;
 }
 .chars-ok {
     color:#999;
@@ -81,5 +82,6 @@ body {
 }
 #buttons {
     width:100%;
+    margin:5px auto auto auto;
     text-align:right;
 }

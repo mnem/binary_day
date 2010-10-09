@@ -1,8 +1,11 @@
-var g_binaryString = "";
 var MAX_BITS_FOR_CHAR_CODE = 16;
 var MSB_CHAR_CODE = 1 << (MAX_BITS_FOR_CHAR_CODE - 1);
 var MIN_BITS_TO_CONSIDER_FOR_DECODE = 4;
 var BIN_DELIM = " ";
+var EMPTY_MESSAGE_PROMPT = "Enter some text above to convert to or from binary!";
+
+var g_binaryString = "";
+var g_outMessage = EMPTY_MESSAGE_PROMPT;
 
 function getUrlVars() {
 	var vars = [], hash;
@@ -125,25 +128,51 @@ function messageIsProbablyBinary(message) {
 }
 
 function messageChanged() {
-	message = $("#message-text").val();
+	var message = $("#message-text").val();
+	var outMessage = "";
 	if(messageIsProbablyBinary(message)) {
-		$("#binary-label").html("Translation");
-		$("#binary-text").val(stringFromBinaryString(message));
+		$("#content-label").html("Translation");
+		outMessage = stringFromBinaryString(message);
 	} else {
-		$("#binary-label").html("Binary");
+		$("#content-label").html("Binary");
 		g_binaryString = stringToBinaryString(message);
 		if(g_binaryString.length > 0) {
-			$("#binary-text").val(g_binaryString + "#binday");
+			outMessage = g_binaryString + "#binday";
 		} else {
-			$("#binary-text").val(g_binaryString);
+			outMessage = EMPTY_MESSAGE_PROMPT
 		}
 	}
+	updateInLink();
+	setOutputText(outMessage);
+}
+
+function updateInLink() {
+	var message = $("#message-text").val();
 	$("#in-link").attr("href", getMessageHREF(message));
-	$("#binary-text").change();
+}
+
+function updateOutLink() {
+	$("#out-link").attr("href", getMessageHREF(g_outMessage));
+}
+
+function setOutputText(message) {
+	g_outMessage = message;
+	$("#content-out").html(g_outMessage);
+	updateCharactersLeft(g_outMessage.length);
+	updateTweetButton();
+	updateOutLink();
+}
+
+function updateTweetButton() {
+	if(canTweet()) {
+		$("#tweet-button").button("option", "disabled", false);
+	} else {
+		$("#tweet-button").button("option", "disabled", true);
+	}
 }
 
 function canTweet() {
-	var length = $("#binary-text").val().length;
+	var length = g_outMessage.length;
 	var message = $("#message-text").val();
 	
 	if(length > 140 || length <= 0) {
@@ -156,11 +185,8 @@ function canTweet() {
 	return true;
 }
 
-function binaryChanged() {
-	var length = $("#binary-text").val().length;
-	
+function updateCharactersLeft(length) {
 	$("#characters-left").html(140 - length);
-	
 	// Adjust label colour
 	$("#characters-left").removeClass("chars-ok chars-careful chars-you-were-only-supposed-to-blow-the-bloody-doors-off");
 	if(length >= 130) {
@@ -170,14 +196,6 @@ function binaryChanged() {
 	} else {
 		$("#characters-left").addClass("chars-ok");
 	}
-	
-	if(canTweet()) {
-		$("#tweet-button").button("option", "disabled", false);
-	} else {
-		$("#tweet-button").button("option", "disabled", true);
-	}
-	
-	$("#out-link").attr("href", getMessageHREF($("#binary-text").val()));
 }
 
 function tweetIt() {
@@ -201,11 +219,11 @@ function getMessageHREF(message) {
 }
 
 $(document).ready(function() {
+	$("#content-out").html(g_outMessage);
+	
 	$("#message-text").keypress(messageChanged);
 	$("#message-text").keydown(messageChanged);
 	$("#message-text").keyup(messageChanged);
-
-	$("#binary-text").change(binaryChanged);
 
 	$("#tweet-button").button({disabled:true});
 	$("#tweet-button").click(tweetIt);
