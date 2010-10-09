@@ -1,8 +1,10 @@
-var MAX_BITS_FOR_CHAR_CODE = 16;
-var MSB_CHAR_CODE = 1 << (MAX_BITS_FOR_CHAR_CODE - 1);
-var MIN_BITS_TO_CONSIDER_FOR_DECODE = 4;
-var BIN_DELIM = " ";
-var EMPTY_MESSAGE_PROMPT = "Enter some text above to convert to or from binary!";
+var MAX_BITS_FOR_CHAR_CODE=8;
+var MSB_CHAR_CODE=1 << (MAX_BITS_FOR_CHAR_CODE - 1);
+var MIN_BITS_TO_CONSIDER_FOR_DECODE=8;
+var BIN_DELIM="";
+var EMPTY_MESSAGE_PROMPT="Enter some text above to convert to or from binary!";
+var TRIM_LEADING_ZEROES=false;
+var ADVERT=" 10day.co.uk"
 
 var g_binaryString = "";
 var g_outMessage = EMPTY_MESSAGE_PROMPT;
@@ -85,7 +87,7 @@ function valueToBinaryString(value) {
 		}
 	}
 	
-	while(binary.length > 0 && (binary.charAt(0) == "0")) {
+	while(TRIM_LEADING_ZEROES && binary.length > 0 && (binary.charAt(0) == "0")) {
 		binary = binary.substr(1);
 	}
 	
@@ -97,7 +99,7 @@ function stringToBinaryString(message) {
 	
 	for(var i = 0; i < message.length; i++) {
 		if(binary.length > 0) {
-			binary += " ";
+			binary += BIN_DELIM;
 		}
 		binary += valueToBinaryString(message.charCodeAt(i));
 	}
@@ -107,20 +109,19 @@ function stringToBinaryString(message) {
 
 function messageIsProbablyBinary(message) {
 	var bitRun = 0;
-	var maxBitRun = 0;
 	
 	for(var i = 0; i < message.length; i++) {
 		var c = message.charAt(i);
 		if(c == "0" || c == "1") {
 			bitRun += 1;
 		} else {
-			if(bitRun > maxBitRun) {
-				maxBitRun = bitRun;
+			if(bitRun >= MIN_BITS_TO_CONSIDER_FOR_DECODE) {
+				return true;
 			}
 			bitRun = 0;
 		}
 	}
-	if(maxBitRun >= MIN_BITS_TO_CONSIDER_FOR_DECODE || bitRun > MIN_BITS_TO_CONSIDER_FOR_DECODE) {
+	if(bitRun >= MIN_BITS_TO_CONSIDER_FOR_DECODE) {
 		return true;
 	} else {
 		return false;
@@ -137,13 +138,17 @@ function messageChanged() {
 		$("#content-label").html("Binary");
 		g_binaryString = stringToBinaryString(message);
 		if(g_binaryString.length > 0) {
-			outMessage = g_binaryString + "#binday";
+			outMessage = packageBinaryString(g_binaryString);
 		} else {
 			outMessage = EMPTY_MESSAGE_PROMPT
 		}
 	}
 	updateInLink();
 	setOutputText(outMessage);
+}
+
+function packageBinaryString(message) {
+	return message + ADVERT;
 }
 
 function updateInLink() {
@@ -175,7 +180,7 @@ function canTweet() {
 	var length = g_outMessage.length;
 	var message = $("#message-text").val();
 	
-	if(length > 140 || length <= 0) {
+	if(length == 0) {
 		return false;
 	}
 	if(messageIsProbablyBinary(message)) {
