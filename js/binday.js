@@ -138,7 +138,7 @@ function messageChanged() {
 		$("#content-label").html("Binary");
 		g_binaryString = stringToBinaryString(message);
 		if(g_binaryString.length > 0) {
-			outMessage = packageBinaryString(g_binaryString);
+			outMessage = packageStringForOutput(g_binaryString);
 		} else {
 			outMessage = EMPTY_MESSAGE_PROMPT
 		}
@@ -147,17 +147,9 @@ function messageChanged() {
 	setOutputText(outMessage);
 }
 
-function packageBinaryString(message) {
-	return message + ADVERT;
-}
-
 function updateInLink() {
 	var message = $("#message-text").val();
 	$("#in-link").attr("href", getMessageHREF(message));
-}
-
-function updateOutLink() {
-	$("#out-link").attr("href", getMessageHREF(g_outMessage));
 }
 
 function setOutputText(message) {
@@ -165,7 +157,6 @@ function setOutputText(message) {
 	$("#content-out").html(g_outMessage);
 	updateCharactersLeft(g_outMessage.length);
 	updateTweetButton();
-	updateOutLink();
 }
 
 function updateTweetButton() {
@@ -203,9 +194,33 @@ function updateCharactersLeft(length) {
 	}
 }
 
+function packageString(bitString) {
+	var maxBits = Math.floor((140 - ADVERT.length) / 8) * 8;
+	var packages = [];
+	while(bitString.length > maxBits) {
+		var segment = bitString.substr(0, maxBits);
+		bitString = bitString.slice(maxBits);
+		packages.push(segment + ADVERT);
+	}
+	
+	if(bitString.length > 0) {
+		packages.push(bitString + ADVERT);
+	}
+	
+	return packages;
+}
+
+function packageStringForOutput(bitString) {
+	return packageString(g_binaryString).join("<br/><br/>");
+}
+
+function packageStringForTwitterStatus(bitString) {
+	return encodeURI(packageString(g_binaryString).join("\n"));
+}
+
 function tweetIt() {
 	if(canTweet()) {
-		var url = "http://twitter.com/?status=" + encodeURI(g_binaryString) + "%23binday";
+		var url = "http://twitter.com/?status=" + packageStringForTwitterStatus(g_binaryString);
 		window.location = url;
 	}
 }
@@ -218,6 +233,12 @@ function processUrlVars(vars) {
 		}
 	}
 }
+// 
+// function getTweetPanelHTML(message) {
+// 	return '<div id="content-out" class="ui-corner-all">' + 
+// 	       message +
+// 	       '</div><div id="buttons"><span class="chars-ok" id="characters-left">0</span><a id="tweet-button" href="#">Tweet</a></div>'	
+// }
 
 function getMessageHREF(message) {
 	return "?message=" + encodeURI(message);
