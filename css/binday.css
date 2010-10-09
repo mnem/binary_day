@@ -1,7 +1,7 @@
 body {
     font-family:Arial, Verdana, Sans-serif;
     font-size:14pt;
-    background:#3D9999;
+    background:#5F7A46;
 }
 #everything {
     margin: 32px auto auto auto;
@@ -13,7 +13,15 @@ body {
     padding:3px 3px 3px 3px;
     width:540px;
 	height:160px;
-    background:#FFCC33;
+    background:#ADC762;
+    text-align:center;
+}
+#message-out {
+	position:relative;
+    margin:3px 3px 3px 3px;
+    padding:3px 3px 3px 3px;
+    width:540px;
+    background:#ADC762;
     text-align:center;
 }
 #message-text {
@@ -22,7 +30,19 @@ body {
     font-size:18pt;
     width:520px;
 	height:113px;
-	background:#FEF2C0;
+	background:#FFF27F;
+	color:#000000;
+}
+#content-out {
+	word-wrap:break-word;
+    margin:3px auto auto auto;
+    padding:3px 3px 3px 3px;
+    font-family:Arial, Verdana, Sans-serif;
+    font-size:18pt;
+    width:520px;
+    background:#FFF27F;
+    text-align:left;
+	color:#000000;
 }
 #in-link {
 	position:absolute;
@@ -30,25 +50,6 @@ body {
 	bottom:0px;
 	left:0px;
     font-size:10pt;
-}
-#message-out {
-	position:relative;
-    margin:3px 3px 3px 3px;
-    padding:3px 3px 3px 3px;
-    width:540px;
-    background:#98D900;
-    text-align:center;
-}
-#content-out {
-	word-wrap:break-word;
-    margin:3px auto auto auto;
-    padding:3px 3px 3px 3px;
-    color:#929292;
-    font-family:Arial, Verdana, Sans-serif;
-    font-size:18pt;
-    width:520px;
-    text-align:left;
-    background:#F0FFBE;
 }
 #out-link {
 	position:absolute;
