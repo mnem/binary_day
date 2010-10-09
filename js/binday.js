@@ -1,13 +1,9 @@
 var MAX_BITS_FOR_CHAR_CODE=8;
 var MSB_CHAR_CODE=1 << (MAX_BITS_FOR_CHAR_CODE - 1);
 var MIN_BITS_TO_CONSIDER_FOR_DECODE=8;
-var BIN_DELIM="";
 var EMPTY_MESSAGE_PROMPT="Enter some text above to convert to or from binary!";
-var TRIM_LEADING_ZEROES=false;
-var ADVERT=" 10day.co.uk"
-
-var g_binaryString = "";
-var g_outMessage = EMPTY_MESSAGE_PROMPT;
+var ADVERT=" 10day.co.uk";
+var TWITTER_STATUS_URL="http://twitter.com/?status=";
 
 function getUrlVars() {
 	var vars = [], hash;
@@ -59,10 +55,6 @@ function stringFromBinaryString(binary) {
 				message += group;
 			}
 			group = "";
-			
-			if(processedGroup && c == BIN_DELIM) {
-				c = "";
-			}
 			message += c;
 		}
 	}
@@ -87,10 +79,6 @@ function valueToBinaryString(value) {
 		}
 	}
 	
-	while(TRIM_LEADING_ZEROES && binary.length > 0 && (binary.charAt(0) == "0")) {
-		binary = binary.substr(1);
-	}
-	
 	return binary;
 }
 
@@ -98,9 +86,6 @@ function stringToBinaryString(message) {
 	var binary = "";
 	
 	for(var i = 0; i < message.length; i++) {
-		if(binary.length > 0) {
-			binary += BIN_DELIM;
-		}
 		binary += valueToBinaryString(message.charCodeAt(i));
 	}
 	
@@ -128,70 +113,50 @@ function messageIsProbablyBinary(message) {
 	}
 }
 
+function showAssist() {
+	$("#content-label").html("What To Do");
+	$("#content-out").html(EMPTY_MESSAGE_PROMPT);
+	$("#content-out:hidden").show();
+	$("#tweet-list:visible").hide();
+}
+
+function setTranslation(message) {
+	$("#content-label").html("Translation");
+	$("#content-out").html(message);
+	$("#content-out:hidden").show();
+	$("#tweet-list:visible").hide();
+}
+
+function setBinaryTweets(binaryString) {
+	$("#content-label").html("Binary");
+	var tweets = packageString(binaryString);
+	if(tweets.length > 0) {
+		var tweetList = "";
+		for(var i = 0; i < tweets.length; i++) {
+			tweetList += getTweetPanelHTML(tweets[i], i);
+		}
+		$("#tweet-list").html(tweetList);
+		$("#content-out:visible").hide();
+		$("#tweet-list:hidden").show();
+	} else {
+		showAssist();
+	}
+}
+
 function messageChanged() {
 	var message = $("#message-text").val();
 	var outMessage = "";
 	if(messageIsProbablyBinary(message)) {
-		$("#content-label").html("Translation");
-		outMessage = stringFromBinaryString(message);
+		setTranslation(stringFromBinaryString(message));
 	} else {
-		$("#content-label").html("Binary");
-		g_binaryString = stringToBinaryString(message);
-		if(g_binaryString.length > 0) {
-			outMessage = packageStringForOutput(g_binaryString);
-		} else {
-			outMessage = EMPTY_MESSAGE_PROMPT
-		}
+		setBinaryTweets(stringToBinaryString(message));
 	}
 	updateInLink();
-	setOutputText(outMessage);
 }
 
 function updateInLink() {
 	var message = $("#message-text").val();
 	$("#in-link").attr("href", getMessageHREF(message));
-}
-
-function setOutputText(message) {
-	g_outMessage = message;
-	$("#content-out").html(g_outMessage);
-	updateCharactersLeft(g_outMessage.length);
-	updateTweetButton();
-}
-
-function updateTweetButton() {
-	if(canTweet()) {
-		$("#tweet-button").button("option", "disabled", false);
-	} else {
-		$("#tweet-button").button("option", "disabled", true);
-	}
-}
-
-function canTweet() {
-	var length = g_outMessage.length;
-	var message = $("#message-text").val();
-	
-	if(length == 0) {
-		return false;
-	}
-	if(messageIsProbablyBinary(message)) {
-		return false;
-	}
-	
-	return true;
-}
-
-function updateCharactersLeft(length) {
-	$("#characters-left").html(140 - length);
-	// Adjust label colour
-	$("#characters-left").removeClass("chars-ok chars-careful chars-you-were-only-supposed-to-blow-the-bloody-doors-off");
-	if(length >= 130) {
-		$("#characters-left").addClass("chars-you-were-only-supposed-to-blow-the-bloody-doors-off");
-	} else if(length >= 120) {
-		$("#characters-left").addClass("chars-careful");
-	} else {
-		$("#characters-left").addClass("chars-ok");
-	}
 }
 
 function packageString(bitString) {
@@ -210,21 +175,6 @@ function packageString(bitString) {
 	return packages;
 }
 
-function packageStringForOutput(bitString) {
-	return packageString(g_binaryString).join("<br/><br/>");
-}
-
-function packageStringForTwitterStatus(bitString) {
-	return encodeURI(packageString(g_binaryString).join("\n"));
-}
-
-function tweetIt() {
-	if(canTweet()) {
-		var url = "http://twitter.com/?status=" + packageStringForTwitterStatus(g_binaryString);
-		window.location = url;
-	}
-}
-
 function processUrlVars(vars) {
 	if(vars !== null) {
 		if(vars.message) {
@@ -233,28 +183,27 @@ function processUrlVars(vars) {
 		}
 	}
 }
-// 
-// function getTweetPanelHTML(message) {
-// 	return '<div id="content-out" class="ui-corner-all">' + 
-// 	       message +
-// 	       '</div><div id="buttons"><span class="chars-ok" id="characters-left">0</span><a id="tweet-button" href="#">Tweet</a></div>'	
-// }
+
+function getTweetPanelHTML(message, muid) {
+	return '<div id="tweet-message" class="ui-corner-all">' + 
+	           message +
+	       '</div>' + 
+	       '<div id="buttons">'+
+	           '<a id="tweet-button" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all" ' +
+				  'target="bintweet_' + muid + '" ' + 
+	              'href="' + TWITTER_STATUS_URL + encodeURI(message) +'">Tweet</a>'+
+	       '</div>';
+ }
 
 function getMessageHREF(message) {
 	return "?message=" + encodeURI(message);
 }
 
 $(document).ready(function() {
-	$("#content-out").html(g_outMessage);
-	
+	showAssist();
 	$("#message-text").keypress(messageChanged);
 	$("#message-text").keydown(messageChanged);
 	$("#message-text").keyup(messageChanged);
-
-	$("#tweet-button").button({disabled:true});
-	$("#tweet-button").click(tweetIt);
-	
 	$("#message-text").focus();
-
 	processUrlVars(getUrlVars());
 });

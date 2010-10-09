@@ -34,7 +34,7 @@ body {
 #message-out {
 	position:relative;
     margin:3px 3px 3px 3px;
-    padding:3px 3px 3px 3px;
+    padding:3px 3px 10px 3px;
     width:540px;
     background:#98D900;
     text-align:center;
@@ -50,24 +50,20 @@ body {
     text-align:left;
     background:#F0FFBE;
 }
-.chars-ok {
-    color:#999;
-}
-.chars-careful {
-    color:#5C0002;
-}
-.chars-you-were-only-supposed-to-blow-the-bloody-doors-off {
-    color:#D40D12;
-}
-#characters-left {
-    margin:0px 0px 3px 3px;
-    width:39px;
-    height:15px;
-    display:inline;
+#tweet-message {
+	word-wrap:break-word;
+    margin:3px auto auto auto;
+    padding:3px 3px 3px 3px;
+    color:#929292;
+    font-family:Arial, Verdana, Sans-serif;
+    font-size:18pt;
+    width:520px;
+    text-align:left;
+    background:#F0FFBE;
 }
 #tweet-button {
     width:80px;
-    height:30px;
+    height:18px;
     font-size: 15px;
     font-weight: 300;
     padding: 3px 3px;
