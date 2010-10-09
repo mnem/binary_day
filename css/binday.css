@@ -74,3 +74,17 @@ body {
     margin:5px auto auto auto;
     text-align:right;
 }
+#footer-stuff {
+	position:relative;
+    margin: 32px auto auto auto;
+    width:540px;
+}
+#noise-and-heat {
+	font-family: 'Tangerine', arial, serif;
+	font-size:12pt;
+    text-align:center;
+}
+#noise-and-heat a {
+	color:#003300;
+	text-decoration:none;
+}
