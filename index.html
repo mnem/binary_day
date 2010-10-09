@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Binary Day! 10 10 10</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+	<script src="js/jquery-ui-1.8.5.custom.min.js" type="text/javascript" ></script>
+	<link href="css/cupertino/jquery-ui-1.8.5.custom.css" type="text/css" rel="stylesheet" /> 
+	<link href="css/binday.css" type="text/css" rel="stylesheet" />
+	<script src="js/binday.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	    (function() {
+	        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+
+	        s.type = 'text/javascript';
+	        s.async = true;
+	        s.src = 'http://api.flattr.com/js/0.5.0/load.js?mode=auto';
+
+	        t.parentNode.insertBefore(s, t);
+	    })();
+	/* ]]> */
+	</script>
+</head>
+<body>
+	<div id="everything">
+		<div id="message-in" class="ui-corner-all">
+			<label id="message-label" for="message-text">To Binary/From Binary</label><br/>
+			<textarea id="message-text" rows="4" cols="35" class="text ui-widget-content ui-corner-all"></textarea>
+			<a id="in-link" href="?message=">link</a>
+		</div>
+		<div id="message-out" class="ui-corner-all">
+			<label id="binary-label" for="binary-text">Binary</label><br/>
+			<textarea id="binary-text" rows="4" cols="35" readonly="readonly" class="text ui-widget-content ui-corner-all"></textarea><br/>
+			<div id="buttons"><span class="chars-ok" id="characters-left">0</span><a id="tweet-button" href="#">Tweet</a></div>
+			<a id="out-link" href="?message=">link</a>
+		</div>
+	</div>
+	<center><a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://binday.noiseandheat.com/"></a></a></center>
+</body>
+</html>

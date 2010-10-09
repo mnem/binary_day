@@ -1,0 +1,85 @@
+body {
+    font-family:Arial, Verdana, Sans-serif;
+    font-size:14pt;
+    background:#3D9999;
+}
+#everything {
+    margin: 32px auto auto auto;
+    width:540px;
+}
+#in-link {
+	position:absolute;
+    margin:3px 3px 2px 12px;
+	bottom:0px;
+	left:0px;
+    font-size:10pt;
+}
+#out-link {
+	position:absolute;
+    margin:3px 3px 38px 12px;
+	bottom:0px;
+	left:0px;
+    font-size:10pt;
+}
+#message-in {
+	position:relative;
+    margin:3px 3px 3px 3px;
+    padding:3px 3px 3px 3px;
+    width:540px;
+	height:160px;
+    background:#FFCC33;
+    text-align:center;
+}
+#message-out {
+	position:relative;
+    margin:3px 3px 3px 3px;
+    padding:3px 3px 3px 3px;
+    width:540px;
+	height:195px;
+    background:#98D900;
+    text-align:center;
+}
+#message-text {
+    margin:3px 3px 3px 3px;
+    font-family:Arial, Verdana, Sans-serif;
+    font-size:18pt;
+    width:520px;
+	height:113px;
+	background:#FEF2C0;
+}
+#binary-text {
+    margin:3px 3px 3px 3px;
+    color:#929292;
+    font-family:Arial, Verdana, Sans-serif;
+    font-size:18pt;
+    width:520px;
+	height:113px;
+    background:#F0FFBE;
+}
+.chars-ok {
+    color:#999;
+}
+.chars-careful {
+    color:#5C0002;
+}
+.chars-you-were-only-supposed-to-blow-the-bloody-doors-off {
+    color:#D40D12;
+}
+#characters-left {
+    margin:0px 0px 3px 3px;
+    width:39px;
+    height:15px;
+    display:inline;
+}
+#tweet-button {
+    width:80px;
+    height:30px;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 3px 3px;
+    margin:0px 7px 3px 3px;
+}
+#buttons {
+    width:100%;
+    text-align:right;
+}
