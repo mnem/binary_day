@@ -78,13 +78,15 @@ body {
 	position:relative;
     margin: 32px auto auto auto;
     width:540px;
-}
-#noise-and-heat {
-	font-family: 'Tangerine', arial, serif;
 	font-size:12pt;
     text-align:center;
 }
-#noise-and-heat a {
+#footer-stuff a {
 	color:#003300;
 	text-decoration:none;
+}
+#credits-bit-coders {
+    margin: 8px auto auto auto;
+	font-size:10pt;
+	color:#004444;
 }
