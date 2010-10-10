@@ -7,6 +7,18 @@ body {
     margin: 32px auto auto auto;
     width:540px;
 }
+#blurb {
+	font-size:12pt;
+	text-align:justify;
+}
+#blurb h1 {
+	text-align:center;
+	font-size:24pt;
+}
+#blurb h2 {
+	text-align:center;
+	font-size:24pt;
+}
 #message-in {
 	position:relative;
     margin:3px 3px 3px 3px;
